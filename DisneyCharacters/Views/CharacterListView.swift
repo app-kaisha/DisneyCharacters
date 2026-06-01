@@ -4,19 +4,23 @@
 //
 //  Created by app-kaihatsusha on 01/06/2026.
 //  Copyright © 2026 app-kaihatsusha. All rights reserved.
-//
+//  API: https://api.disneyapi.dev/character
 
 import SwiftUI
 
 struct CharacterListView: View {
+    
+    @State private var characters = Characters()
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack {
+            List(characters.charactersArray) { character in
+                Text(character.name)
+            }
         }
-        .padding()
+        .task {
+            await characters.getData()
+        }
     }
 }
 
