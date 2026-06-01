@@ -1,6 +1,6 @@
 //
-//  Characters.swift
-//  DisneyCharacters
+//  DisneyCharacters.swift
+//  CharacterViewModel
 //
 //  Created by app-kaihatsusha on 01/06/2026.
 //  Copyright © 2026 app-kaihatsusha. All rights reserved.
@@ -9,11 +9,11 @@
 import Foundation
 
 @Observable
-class Characters {
+class CharacterViewModel {
     
     struct Returned: Codable {
         var info: Info
-        var data: [Character]
+        var data: [DisneyCharacter]
     }
     
     struct Info: Codable {
@@ -24,7 +24,7 @@ class Characters {
     
     var urlString = "https://api.disneyapi.dev/character"
     var count = 0
-    var charactersArray: [Character] = []
+    var characters: [DisneyCharacter] = []
     var isLoading = false
     
     func getData() async {
@@ -43,7 +43,7 @@ class Characters {
             // decode JSON into data structure
             guard let returned = try? JSONDecoder().decode(Returned.self, from: data) else {
         
-                print("😡 JSON ERROR: Could not decode returned JSON data")
+                print("😡 JSON ERROR: Could not decode JSON data from \(urlString)")
                 isLoading = false
                 return
             }
@@ -53,7 +53,7 @@ class Characters {
             Task { @MainActor in
                 self.count = returned.info.count
                 self.urlString = returned.info.nextPage ?? ""
-                self.charactersArray = self.charactersArray + returned.data
+                self.characters = self.characters + returned.data
                 isLoading = false
             }
 
@@ -64,8 +64,8 @@ class Characters {
         }
     }
     
-    func loadNextIfNeeded(character: Character) async {
-        guard let lastCharacter = charactersArray.last else { return }
+    func loadNextIfNeeded(character: DisneyCharacter) async {
+        guard let lastCharacter = characters.last else { return }
         if character.id == lastCharacter.id && urlString.hasPrefix("http") {
             print("getting data after: \(character.name)")
             await getData()

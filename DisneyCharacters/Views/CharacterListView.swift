@@ -10,16 +10,27 @@ import SwiftUI
 
 struct CharacterListView: View {
     
-    @State private var characters = Characters()
+    @State private var characterVM = CharacterViewModel()
     
     var body: some View {
         NavigationStack {
-            List(characters.charactersArray) { character in
-                Text(character.name)
+            ZStack {
+                List(characterVM.characters) { character in
+                    Text(character.name)
+                }
+                .font(.title2)
+                .listStyle(.plain)
+                .navigationTitle("Disney Characters")
+                
+                if characterVM.isLoading {
+                    ProgressView()
+                        .tint(.red)
+                        .scaleEffect(4)
+                }
             }
         }
         .task {
-            await characters.getData()
+            await characterVM.getData()
         }
     }
 }
