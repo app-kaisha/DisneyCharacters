@@ -28,6 +28,8 @@ class CharacterViewModel {
     var isLoading = false
     
     func getData() async {
+        guard urlString != "" else { return }
+        guard !isLoading else { return }
         
         print("🕸️ We are accessing the url \(urlString)")
         isLoading = true
@@ -66,6 +68,7 @@ class CharacterViewModel {
     
     func loadNextIfNeeded(character: DisneyCharacter) async {
         guard let lastCharacter = characters.last else { return }
+        print("Character in View: \(character.name), lastDownloaded: \(lastCharacter.name)")
         if character.id == lastCharacter.id && urlString.hasPrefix("http") {
             print("getting data after: \(character.name)")
             await getData()
