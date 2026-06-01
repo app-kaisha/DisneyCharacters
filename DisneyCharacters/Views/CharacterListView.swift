@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  CharacterListView.swift
 //  DisneyCharacters
 //
 //  Created by app-kaihatsusha on 01/06/2026.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct CharacterListView: View {
     var body: some View {
         VStack {
             Image(systemName: "globe")
@@ -21,5 +21,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    CharacterListView()
 }

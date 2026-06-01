@@ -12,7 +12,7 @@ import SwiftUI
 struct DisneyCharactersApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            CharacterListView()
         }
     }
 }
